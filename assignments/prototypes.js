@@ -21,14 +21,11 @@ function GameObject(attributes){
   this.createdAt = attributes.createdAt;
   this.name = attributes.name;
   this.dimensions = attributes.dimensions;
-
-  console.log(this);
 }
 
 GameObject.prototype.destroy = function(){
   return `${this.name} was removed from the game.`;
 }
-
 
 /*
   === CharacterStats ===
@@ -39,13 +36,9 @@ GameObject.prototype.destroy = function(){
 
 function CharacterStats(attributes){
 
-  this.createdAt = attributes.createdAt;
-  this.name = attributes.name;
-  this.dimensions = attributes.dimensions;
+  GameObject.call(this, attributes);
 
   this.healthPoints = attributes.healthPoints;
-  
-  console.log(this);
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
@@ -53,8 +46,6 @@ CharacterStats.prototype = Object.create(GameObject.prototype);
 CharacterStats.prototype.takeDamage = function(){
   return `${this.name} took damage.`
 }
-
-
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -68,20 +59,16 @@ CharacterStats.prototype.takeDamage = function(){
  
 function Humanoid(attributes){
 
-  this.createdAt = attributes.createdAt;
-  this.name = attributes.name;
-  this.dimensions = attributes.dimensions;
+  GameObject.call(this, attributes);
+
+  CharacterStats.call(this, attributes);
 
   this.team = attributes.team;
   this.weapons = attributes.weapons;
   this.language = attributes.language;
-  
-  this.healthPoints = attributes.healthPoints;
 
   console.log(this);
 }
-
-Humanoid.prototype = Object.create(GameObject.prototype);
 
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
@@ -89,25 +76,11 @@ Humanoid.prototype.greet = function(){
   return `${this.name} offers a greeting in ${this.language}.`
 }
 
-
-
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
   * Instances of CharacterStats should have all of the same properties as GameObject.
 */
-
-function Villain(attributes){
-  Humanoid.call();
-}
- 
-Villain.prototype = Object.create(Humanoid.prototype);
-
-function Hero(attributes){
- Humanoid.call();
-}
-
-Hero.prototype = Object.create(Humanoid.prototype);
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
@@ -161,23 +134,6 @@ Hero.prototype = Object.create(Humanoid.prototype);
     ],
     language: 'Elvish',
   });
-    
-  // const Bilbo = new Villain({
-  //   createdAt: new Date(),
-  //   dimensions: {
-  //     length: 1,
-  //     width: 2,
-  //     height: 4,
-  //   },
-  //   healthPoints: 10,
-  //   name: 'Lilith',
-  //   team: 'Forest Kingdom',
-  //   weapons: [
-  //     'Bow',
-  //     'Dagger',
-  //   ],
-  //   language: 'Elvish',
-  // })
 
   console.log(mage.createdAt); // Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
